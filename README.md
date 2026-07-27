@@ -1,4 +1,4 @@
-# Defuddle for Hermes
+# Defuddle for Hermes (AIGC)
 Local Web Extraction Provider for [Hermes Agent](https://hermes-agent.nousresearch.com/) web extraction via [Defuddle](https://github.com/kepano/defuddle), no API key required.
 
 Drops in as a web extract provider plugin. Designed to pair with a search-only backend (SearXNG, Brave Free, DDGS, etc.) so `web_extract()` works transparently.
@@ -7,13 +7,13 @@ Extracts clean json from web pages using the Defuddle CLI.
 
 ## Quick Start
 
-```bash
-hermes plugins install kyan001/defuddle-extract
+```Bash
+hermes plugins install kyan001/Defuddle-for-Hermes
 ```
 
 Then set it as your extract backend in `${HERMES_HOME}/config.yaml`:
 
-```yaml
+```YAML
 web:
   search_backend: searxng
   extract_backend: defuddle  # set this
@@ -40,7 +40,7 @@ The plugin registers as a `WebSearchProvider` with:
 
 Each URL returns:
 
-```json
+```JSON
 {
   "url": "https://example.com/article",
   "title": "Page Title",
@@ -59,8 +59,8 @@ Each URL returns:
 
 ## File Structure
 
-```dir
-defuddle-extract/
+```Shell
+Defuddle-for-Hermes/
 ├── __init__.py    # DefuddleExtractProvider + register()
 └── plugin.yaml    # Plugin manifest
 ```

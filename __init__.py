@@ -5,12 +5,8 @@ and delegates ``extract()`` to ``npx defuddle parse <url> --json``.
 
 No API key needed — just Node.js and npm (which Heremes already has).
 """
-
-from __future__ import annotations
-
 import json
 import logging
-import os
 import shutil
 import subprocess
 from typing import Any
@@ -69,37 +65,15 @@ class DefuddleExtractProvider(WebSearchProvider):
 
     # ── Extract ───────────────────────────────────────────────────────
 
-    def extract(
-        self, urls: list[str], **kwargs: Any
-    ) -> dict[str, Any]:
-        """Extract clean markdown from URLs via Defuddle CLI.
-
-        Response envelope (see ``agent/web_search_provider.py``):
-
-        .. code-block:: python
-
-           {
-               "success": True,
-               "data": [
-                   {
-                       "url": "https://...",
-                       "title": "...",
-                       "content": "… (markdown) …",
-                       "raw_content": "… (same as content) …",
-                       "metadata": { … },
-                       "error": None | "per-URL error message",
-                   },
-                   ...
-               ],
-           }
-        """
+    def extract(self, urls: list[str], **kwargs: Any) -> list[dict[str, Any]]:
+        """Extract clean markdown from URLs via Defuddle CLI."""
         results: list[dict[str, Any]] = []
 
         for url in urls:
             result = self._extract_one(url)
             results.append(result)
 
-        return {"success": True, "data": results}
+        return results
 
     # ── Internals ─────────────────────────────────────────────────────
 
@@ -116,7 +90,6 @@ class DefuddleExtractProvider(WebSearchProvider):
                 capture_output=True,
                 text=True,
                 timeout=_EXTRACT_TIMEOUT,
-                env={**os.environ, "NPX_CACHE": "true"},
             )
 
             if proc.returncode != 0:
@@ -179,10 +152,7 @@ class DefuddleExtractProvider(WebSearchProvider):
             }
 
         except Exception as exc:
-            logger.error(
-                "defuddle-for-hermes: unexpected error for %s: %s",
-                url, exc, exc_info=True,
-            )
+            logger.exception("defuddle-for-hermes: unexpected error for %s", url)
             return {
                 "url": url,
                 "title": "",
