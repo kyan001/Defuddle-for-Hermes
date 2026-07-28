@@ -7,16 +7,20 @@ Extracts clean json from web pages using the Defuddle CLI.
 
 ## Quick Start
 
-```Bash
-hermes plugins install kyan001/Defuddle-for-Hermes
+Install via CLI:
+```Shell
+hermes plugins install kyan001/Defuddle-for-Hermes --enable  # Install and enable
 ```
+Or install via Dashboard: <https://hermes.kyan001.com/plugins>
 
-Then set it as your extract backend in `${HERMES_HOME}/config.yaml`:
+Then set it as your extract backend: `hermes config set web.extract_backend defuddle`
 
+Or set via `${HERMES_HOME}/config.yaml`
 ```YAML
+# File: ${HERMES_HOME}/config.yaml
 web:
-  search_backend: searxng
-  extract_backend: defuddle  # set this
+  search_backend: ...  # Might be searxng
+  extract_backend: defuddle  # Set this
 ```
 
 `/restart` / `/new` and `web_extract(urls=[...])` will use Defuddle under the hood.
