@@ -20,7 +20,7 @@
     1. 安装：`hermes plugins install kyan001/Defuddle-for-Hermes --enable`
     2. 设置为网页提取后端：`hermes config set web.extract_backend defuddle`
     3. 重启：`hermes gateway restart`
-    * 更新：`hermes plugins update defuddle-for-hermes`
+    * 更新：`hermes plugins update defuddle`
 
 ## 系统要求
 

@@ -1,4 +1,4 @@
-"""defuddle-for-hermes - Web extraction provider using Defuddle CLI.
+"""Defuddle Plugin - Web extraction provider using Defuddle CLI.
 
 Subclasses :class:`agent.web_search_provider.WebSearchProvider`
 and delegates ``extract()`` to ``npx defuddle parse <url> --json``.
@@ -48,10 +48,10 @@ class DefuddleExtractProvider(WebSearchProvider):
     def is_available(self) -> bool:
         """Cheap check — Node.js + npx present, no network call."""
         if not shutil.which("node"):
-            logger.debug("defuddle-for-hermes: node not found")
+            logger.debug("Defuddle Plugin: node not found")
             return False
         if not shutil.which("npx"):
-            logger.debug("defuddle-for-hermes: npx not found")
+            logger.debug("Defuddle Plugin: npx not found")
             return False
         return True
 
@@ -97,7 +97,7 @@ class DefuddleExtractProvider(WebSearchProvider):
                 if not err:
                     err = f"defuddle exited with code {proc.returncode}"
                 logger.warning(
-                    "defuddle-for-hermes: %s returned %d: %s",
+                    "Defuddle Plugin: %s returned %d: %s",
                     url, proc.returncode, err,
                 )
                 return {
@@ -139,7 +139,7 @@ class DefuddleExtractProvider(WebSearchProvider):
 
         except subprocess.TimeoutExpired:
             logger.warning(
-                "defuddle-for-hermes: timed out after %ss for %s",
+                "Defuddle Plugin: timed out after %ss for %s",
                 _EXTRACT_TIMEOUT, url,
             )
             return {
@@ -152,7 +152,7 @@ class DefuddleExtractProvider(WebSearchProvider):
             }
 
         except Exception as exc:
-            logger.exception("defuddle-for-hermes: unexpected error for %s", url)
+            logger.exception("Defuddle Plugin: unexpected error for %s", url)
             return {
                 "url": url,
                 "title": "",
@@ -170,4 +170,4 @@ def register(ctx: Any) -> None:
     """Register the Defuddle extract provider with Heremes."""
     provider = DefuddleExtractProvider()
     ctx.register_web_search_provider(provider)
-    logger.info("defuddle-for-hermes: registered provider 'defuddle'")
+    logger.info("Defuddle Plugin: registered provider 'defuddle'")
